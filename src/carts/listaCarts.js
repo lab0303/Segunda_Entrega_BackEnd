@@ -7,10 +7,15 @@ router.get("/:cid", async (req, res) => {
     const { cid } = req.params;
     const cart = await Carts.findOne({ _id: cid }).lean();
     let carts = cart.products;
-    carts = carts.map((product) => {
-      return product.product;
+    cartsDetail = carts.map((item) => {
+      return {
+        name: item.product.name,
+        price: item.product.price,
+        category: item.product.category,
+        quantity: item.quantity,
+      };
     });
-    res.render("carts", { carts });
+    res.render("carts", { cartsDetail });
   } catch (error) {
     console.log(error);
   }

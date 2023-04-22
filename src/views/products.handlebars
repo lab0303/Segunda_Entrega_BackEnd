@@ -1,6 +1,10 @@
-<h1>Products</h1>
+<h1>Bienvenido {{user.firstName}} {{user.lastName}}</h1>
+<p>Te logueaste con el correo {{user.email}}, tu role es de {{user.role}}</p>
+<a href="/auth/logout">Cerrar sesion</a>
+
+<h2>Products</h2>
  {{#each products}}
-    <h2>Name:{{this.name}}</h2>
+    <h3>Name:{{this.name}}</h3>
     <p>Price: {{this.price}}</p>
     <p>Category: {{this.category}}</p>
     <button>Agregar al carrito</button>
