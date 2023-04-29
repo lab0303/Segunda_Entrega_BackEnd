@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const Users = require("../dao/models/User.model");
+const passport = require("passport");
 const router = Router();
 
 router.get("/", async (req, res) => {
@@ -7,21 +7,23 @@ router.get("/", async (req, res) => {
   res.json({ users });
 });
 
-router.post("/", async (req, res) => {
-  try {
-    const { firstName, lastName, email, age, password } = req.body;
-    const userInfo = {
-      firstName,
-      lastName,
-      email,
-      age,
-      password,
-    };
-    const user = await Users.create(userInfo);
-    res.status(201).json({ status: "success", message: user });
-  } catch (error) {
-    console.log(error);
+router.post(
+  "/",
+  passport.authenticate("register", { failureRedirect: "/users/failregister" }),
+  async (req, res) => {
+    try {
+      res
+        .status(201)
+        .json({ status: "success", message: "Usuario registrado" });
+    } catch (error) {
+      console.log(error);
+    }
   }
+);
+
+router.get("/failregister", (req, res) => {
+  console.log("Fallo el registro");
+  res.json({ error: "Failed register" });
 });
 
 module.exports = router;
