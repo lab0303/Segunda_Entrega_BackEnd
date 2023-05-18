@@ -3,6 +3,8 @@ const Products = require("../dao/models/Products.model");
 const publicSession = require("../middlwares/public.middleware");
 const privateSession = require("../middlwares/private.middleware");
 const router = Router();
+const passport = require("passport");
+const passportCall = require("../utils/passportCall.utils");
 
 router.get("/register", publicSession, (req, res) => {
   res.render("register");
@@ -12,9 +14,9 @@ router.get("/login", publicSession, (req, res) => {
   res.render("login");
 });
 
-router.get("/products", privateSession, async (req, res) => {
+router.get("/products", passportCall("current"), async (req, res) => {
   try {
-    const { user } = req.session;
+    const { user } = req.user;
     const products = await Products.find().lean();
     res.render("products", { products, user });
   } catch (error) {

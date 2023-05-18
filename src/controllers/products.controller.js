@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const Products = require("../dao/models/Products.model");
 const router = Router();
+const passport = require("passport");
 
 router.get("/", async (req, res) => {
   try {

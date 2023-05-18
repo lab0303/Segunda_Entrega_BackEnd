@@ -1,14 +1,16 @@
-const { Router } = require("express");
+const { Router, response } = require("express");
 const Users = require("../dao/models/User.model");
 const { isValidPassword } = require("../utils/cryptPassword.utils");
 const passport = require("passport");
+const generateToken = require("../utils/jwt.utils");
 const router = Router();
 
 router.post(
   "/",
-  passport.authenticate("login", { failureRedirect: "/auth/faillogin" }),
+  //passport.authenticate("login", { failureRedirect: "/auth/faillogin" }),
   async (req, res) => {
-    try {
+    // con session
+    /*try {
       if (!req.user)
         return res
           .status(400)
@@ -28,6 +30,24 @@ router.post(
       res.json({ status: "success", message: "Sesion iniciada" });
     } catch (error) {
       console.log(error.message);
+    }*/
+    // con jwt
+    try {
+      const { email, password } = req.body;
+      const user = await Users.findOne({ email });
+
+      if (!user)
+        return res.json({ error: "Username and password do not match" });
+
+      if (!isValidPassword(password, user))
+        return res.json({ error: "Username and password do not match" });
+      const token = generateToken({ firstName: user.firstName, email });
+      res
+        .cookie("authtoken", token, { maxAge: 10000 })
+        .json({ message: "Sesion iniciada" });
+      console.log(user);
+    } catch (error) {
+      console.log(error);
     }
   }
 );
