@@ -1,10 +1,13 @@
 const { Router } = require("express");
 const passport = require("passport");
 const generateToken = require("../utils/jwt.utils");
+const UsersDAO = require("../dao/Users.Dao");
 const router = Router();
 
+const Users = new UsersDAO();
+
 router.get("/", async (req, res) => {
-  const users = await Users.find();
+  const users = await Users.findUsers();
   res.json({ users });
 });
 

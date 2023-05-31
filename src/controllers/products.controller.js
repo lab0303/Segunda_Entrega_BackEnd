@@ -1,11 +1,14 @@
 const { Router } = require("express");
-const Products = require("../dao/models/Products.model");
+const Products1 = require("../dao/models/Products.model");
+const ProductsDAO = require("../dao/Products.Dao");
+
 const router = Router();
-const passport = require("passport");
+
+const Products = new ProductsDAO();
 
 router.get("/", async (req, res) => {
   try {
-    const { limit = 10, page = 1, sort, category } = req.query;
+    const { limit = 20, page = 1, sort, category } = req.query;
     console.log(req.query);
     const sortPrice = {};
     if (sort === "asc") sortPrice.price = 1;
@@ -14,12 +17,22 @@ router.get("/", async (req, res) => {
     const query = {};
     if (category) query.category = category.toLocaleLowerCase();
 
-    const products = await Products.paginate(query, {
+    const products = await Products1.paginate(query, {
       limit,
       page,
       sort: sortPrice,
     });
     res.json({ message: products });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.get("/:pid", async (req, res) => {
+  try {
+    const { pid } = req.params;
+    const product = await Products.getProduct(pid);
+    res.json({ message: product });
   } catch (error) {
     console.log(error);
   }
@@ -34,11 +47,20 @@ router.post("/", (req, res) => {
       category: category.toLowerCase(),
       stock,
     };
-    Products.create(newProductInfo);
+    Products.addProduct(newProductInfo);
     res.json({ message: newProductInfo });
   } catch (error) {
     console.log(error);
   }
 });
 
+router.delete("/:pid", async (req, res) => {
+  try {
+    const { pid } = req.params;
+    const product = await Products.deleteProduct(pid);
+    res.json({ message: product });
+  } catch (error) {
+    console.log(error);
+  }
+});
 module.exports = router;

@@ -3,13 +3,14 @@ const MongoStore = require("connect-mongo");
 const session = require("express-session");
 const passport = require("passport");
 const cookieParser = require("cookie-parser");
+require("dotenv").config();
 
 const mongoConnect = require("../db");
 const router = require("./router");
 const initializePassport = require("./config/passport.config");
 
 const handlebars = require("express-handlebars");
-const port = 8080;
+const port = process.env.PORT || 8080;
 const app = express();
 
 app.use(express.json());

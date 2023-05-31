@@ -1,9 +1,9 @@
 const jwt = require("jsonwebtoken");
 
-const PrivateKey = "luis0303";
-
 const generateToken = (user) => {
-  const token = jwt.sign({ user }, PrivateKey, { expiresIn: "1d" });
+  const token = jwt.sign({ user }, process.env.JWT_PRIVATE_KEY, {
+    expiresIn: "1d",
+  });
 
   return token;
 };

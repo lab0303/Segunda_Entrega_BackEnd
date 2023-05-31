@@ -1,10 +1,11 @@
 const { Router, response } = require("express");
-const Users = require("../dao/models/User.model");
 const { isValidPassword } = require("../utils/cryptPassword.utils");
 const passport = require("passport");
 const generateToken = require("../utils/jwt.utils");
+const UsersDAO = require("../dao/Users.Dao");
 const router = Router();
 
+const Users = new UsersDAO();
 router.post(
   "/",
   //passport.authenticate("login", { failureRedirect: "/auth/faillogin" }),
@@ -34,7 +35,9 @@ router.post(
     // con jwt
     try {
       const { email, password } = req.body;
-      const user = await Users.findOne({ email });
+      const user = await Users.findUser(email);
+
+      console.log(user);
 
       if (!user)
         return res.json({ error: "Username and password do not match" });
