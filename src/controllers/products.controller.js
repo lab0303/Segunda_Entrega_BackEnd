@@ -1,6 +1,8 @@
 const { Router } = require("express");
 const Products1 = require("../dao/models/Products.model");
 const ProductsDAO = require("../dao/Products.Dao");
+const isAdmin = require("../middlwares/isAdmin.middleware");
+const passportCall = require("../utils/passportCall.utils");
 
 const router = Router();
 
@@ -38,8 +40,9 @@ router.get("/:pid", async (req, res) => {
   }
 });
 
-router.post("/", (req, res) => {
+router.post("/", passportCall("current"), isAdmin, (req, res) => {
   try {
+    console.log(req.user, "desde post");
     const { name, price, category, stock } = req.body;
     const newProductInfo = {
       name,
@@ -54,7 +57,7 @@ router.post("/", (req, res) => {
   }
 });
 
-router.delete("/:pid", async (req, res) => {
+router.delete("/:pid", passportCall("current"), isAdmin, async (req, res) => {
   try {
     const { pid } = req.params;
     const product = await Products.deleteProduct(pid);

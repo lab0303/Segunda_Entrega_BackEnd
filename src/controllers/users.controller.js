@@ -2,6 +2,7 @@ const { Router } = require("express");
 const passport = require("passport");
 const generateToken = require("../utils/jwt.utils");
 const UsersDAO = require("../dao/Users.Dao");
+const UserDTO = require("../dto/user.dto");
 const router = Router();
 
 const Users = new UsersDAO();
@@ -17,10 +18,11 @@ router.post(
   async (req, res) => {
     try {
       console.log(req.user);
+      const user = new UserDTO(req.user);
       const token = generateToken({ email: req.user.email });
       res
         .status(201)
-        .json({ status: "success", message: "Usuario registrado", token });
+        .json({ status: "success", message: "Usuario registrado", user });
     } catch (error) {
       console.log(error);
     }

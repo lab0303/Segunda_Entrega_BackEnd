@@ -44,11 +44,14 @@ router.post(
 
       if (!isValidPassword(password, user))
         return res.json({ error: "Username and password do not match" });
-      const token = generateToken({ firstName: user.firstName, email });
+      const token = generateToken({
+        firstName: user.firstName,
+        email,
+        role: user.role,
+      });
       res
-        .cookie("authtoken", token, { maxAge: 10000 })
-        .json({ message: "Sesion iniciada" });
-      console.log(user);
+        .cookie("authtoken", token, { maxAge: 10000000 })
+        .json({ message: "Sesion iniciada", token });
     } catch (error) {
       console.log(error);
     }

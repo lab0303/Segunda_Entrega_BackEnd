@@ -1,9 +1,8 @@
 const { Router } = require("express");
 const Products = require("../dao/models/Products.model");
 const publicSession = require("../middlwares/public.middleware");
-const router = Router();
-const passport = require("passport");
 const passportCall = require("../utils/passportCall.utils");
+const router = Router();
 
 router.get("/register", publicSession, (req, res) => {
   res.render("register");
@@ -13,8 +12,9 @@ router.get("/login", publicSession, (req, res) => {
   res.render("login");
 });
 
-router.get("/products", passportCall("current"), async (req, res) => {
+router.get("/current", passportCall("current"), async (req, res) => {
   try {
+    console.log(req.user);
     const { user } = req.user;
     const products = await Products.find().lean();
     res.render("products", { products, user });
