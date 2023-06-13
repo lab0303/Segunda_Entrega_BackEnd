@@ -88,4 +88,24 @@ router.delete("/:cid/products/:pid", async (req, res) => {
   }
 });
 
+router.patch("/:cid/purchase", async (req, res) => {
+  const { cid } = req.params;
+  const cart = await Carts.findOne({ _id: cid });
+  if (!cart) return res.json({ message: "Carrito no encontrado" });
+  const productsNotPurchase = [];
+  for (const item of cart.products) {
+    console.log(item);
+    let product = item.product;
+    let cartQuantity = item.quantity;
+
+    if (product.stock >= cartQuantity) {
+      product.stock -= cartQuantity;
+      await cart.save();
+    } else {
+      productsNotPurchase.push(product._id);
+    }
+  }
+  res.json({ message: "Compra efectuada", cart });
+});
+
 module.exports = router;
