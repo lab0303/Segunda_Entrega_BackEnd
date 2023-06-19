@@ -6,7 +6,7 @@ const collectionSchema = new mongoose.Schema({
   code: String,
   purchase_datetime: {
     type: Date,
-    default: Date.now(),
+    default: Date.now,
   },
   amount: Number,
   purchaser: String,

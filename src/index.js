@@ -8,8 +8,10 @@ require("dotenv").config();
 const mongoConnect = require("../db");
 const router = require("./router");
 const initializePassport = require("./config/passport.config");
+const errorHandler = require("./middlwares/error");
 
 const handlebars = require("express-handlebars");
+
 const port = process.env.PORT || 8080;
 const app = express();
 
@@ -41,6 +43,7 @@ app.set("view engine", "handlebars");
 mongoConnect();
 
 router(app);
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log("Servidor listening on port 8080");

@@ -105,7 +105,7 @@ router.patch("/:cid/purchase", async (req, res) => {
       productsNotPurchase.push(product._id);
     }
   }
-  res.json({ message: "Compra efectuada", cart });
+  res.json({ message: "Compra efectuada", response, cart });
 });
 
 module.exports = router;

@@ -17,9 +17,8 @@ router.post(
   passport.authenticate("register", { failureRedirect: "/users/failregister" }),
   async (req, res) => {
     try {
-      console.log(req.user);
       const user = new UserDTO(req.user);
-      const token = generateToken({ email: req.user.email });
+      const token = generateToken({ email: user.email });
       res
         .status(201)
         .json({ status: "success", message: "Usuario registrado", user });
