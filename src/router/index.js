@@ -5,6 +5,7 @@ const usersController = require("../controllers/users.controller");
 const viewTemplateController = require("../controllers/viewTemplate.controller");
 const authController = require("../controllers/auth.controller");
 const mockingController = require("../controllers/mocking.controller");
+const loggerTestController = require("../controllers/logger.controller");
 
 const router = (app) => {
   app.use("/api/carts", cartsController);
@@ -14,6 +15,7 @@ const router = (app) => {
   app.use("/users", usersController);
   app.use("/", viewTemplateController);
   app.use("/mockingproducts", mockingController);
+  app.use("/loggerTest", loggerTestController);
 };
 
 module.exports = router;

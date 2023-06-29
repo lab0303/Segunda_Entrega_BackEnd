@@ -9,12 +9,14 @@ const mongoConnect = require("../db");
 const router = require("./router");
 const initializePassport = require("./config/passport.config");
 const errorHandler = require("./middlwares/error");
+const addLogger = require("./middlwares/logger.middleware");
 
 const handlebars = require("express-handlebars");
 
 const port = process.env.PORT || 8080;
 const app = express();
 
+app.use(addLogger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));

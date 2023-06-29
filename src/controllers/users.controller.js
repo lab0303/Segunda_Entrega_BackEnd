@@ -9,6 +9,7 @@ const Users = new UsersDAO();
 
 router.get("/", async (req, res) => {
   const users = await Users.findUsers();
+  req.logger.info(users);
   res.json({ users });
 });
 
