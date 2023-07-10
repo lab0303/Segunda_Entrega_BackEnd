@@ -14,7 +14,6 @@ router.get("/login", publicSession, (req, res) => {
 
 router.get("/current", passportCall("current"), async (req, res) => {
   try {
-    console.log(req.user);
     const { user } = req.user;
     const products = await Products.find().lean();
     res.render("products", { products, user });
