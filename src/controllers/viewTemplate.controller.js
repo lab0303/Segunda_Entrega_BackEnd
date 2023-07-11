@@ -12,6 +12,10 @@ router.get("/login", publicSession, (req, res) => {
   res.render("login");
 });
 
+router.get("/reset-password", publicSession, (req, res) => {
+  res.render("resetPass");
+});
+
 router.get("/current", passportCall("current"), async (req, res) => {
   try {
     const { user } = req.user;

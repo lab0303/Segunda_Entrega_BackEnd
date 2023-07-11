@@ -37,8 +37,6 @@ router.post(
       const { email, password } = req.body;
       const user = await Users.findUser(email);
 
-      console.log(user);
-
       if (!user)
         return res.json({ error: "Username and password do not match" });
 
