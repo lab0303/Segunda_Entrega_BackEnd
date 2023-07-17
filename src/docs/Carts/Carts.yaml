@@ -1,0 +1,91 @@
+openapi: "3.1.0"
+info:
+  title: API Carts
+  version: "1.0"
+paths:
+  /api/carts:
+    get:
+      summary: Obtiene todos los carritos
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Todos los Carritos fueron obtenidos
+          content:
+            aplication/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Cart"
+  /api/carts/{cid}:
+    get:
+      summary: Obtiene un carrito a partir de su Id
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: Id del carrito
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Carrito encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+    patch:
+      summary: Actualiza el carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: Id del carrito que desea solicitar
+          schema:
+            type: string
+      requestBody:
+        require: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/updateCart"
+    delete:
+      summary: Elimina los productos del carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: Id del carrito para eliminar sus productos
+          schema:
+            type: string
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id de mongo
+        product:
+          type: array
+          description: Productos del carrito
+        quantity:
+          type: number
+          description: Cantidad de productos
+      example:
+        _id: ObjectId(87whc8hfte78hcs9dhg8)
+        product: []
+        quantity: 5
+  requestBodies:
+    updateCart:
+      description: Body con la info del carrito a actualizar
+      properties:
+        product:
+          type: string
+          description: Object Id del producto
