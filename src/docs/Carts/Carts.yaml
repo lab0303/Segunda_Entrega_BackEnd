@@ -64,6 +64,9 @@ paths:
           description: Id del carrito para eliminar sus productos
           schema:
             type: string
+      responses:
+        "204":
+          description: Carrito eliminado
 components:
   schemas:
     Cart:
