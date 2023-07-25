@@ -6,7 +6,7 @@ class ProductsDAO {
     return await Products.findOne({ _id: pid });
   }
   async addProduct(newProduct) {
-    Products.create(newProduct);
+    await Products.create(newProduct);
   }
 
   async deleteProduct(pid) {
