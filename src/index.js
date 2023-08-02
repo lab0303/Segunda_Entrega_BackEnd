@@ -2,6 +2,8 @@ const express = require("express");
 const passport = require("passport");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
 
 const mongoConnect = require("../db");
 const router = require("./router");
@@ -21,9 +23,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 app.use(cookieParser());
-
+app.use(
+  session({
+    store: MongoStore.create({
+      mongoUrl:
+        "mongodb+srv://lab0303:lab0303@cluster0.pqdbvwm.mongodb.net/coderSessions?retryWrites=true&w=majority",
+      mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
+    }),
+    secret: "coderSecret",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 initializePassport();
 app.use(passport.initialize());
+app.use(passport.session());
 
 app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + "/views");

@@ -14,7 +14,7 @@ class UsersDAO {
 
   async findUser(item) {
     try {
-      const user = await Users.findOne({ _id: item });
+      const user = await Users.findOne({ email: item });
       return user;
     } catch (error) {
       console.log(error);
