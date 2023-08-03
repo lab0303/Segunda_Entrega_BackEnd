@@ -20,6 +20,15 @@ class UsersDAO {
       console.log(error);
     }
   }
+
+  async findUserById(item) {
+    try {
+      const user = await Users.findOne({ _id: item });
+      return user;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 module.exports = UsersDAO;
