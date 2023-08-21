@@ -1,0 +1,121 @@
+openapi: "3.1.0"
+info:
+  title: API Productos
+  version: "1.0"
+paths:
+  /api/products:
+    get:
+      summary: Obtiene todos los productos
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Todos los productos fueron encontrados
+          content:
+            aplication/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+    post:
+      summary: Crear un producto
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/createProduct"
+      responses:
+        "201":
+          description: Producto creado
+          content:
+            aplication/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+  /api/products/{pid}:
+    get:
+      summary: Obtiene un producto por su Id
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: Id del producto
+          schema:
+            type: string
+      responses:
+        "200":
+          description: el producto fue encontrado
+          content:
+            aplication/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+    delete:
+      summary: Eliminar producto por su Id
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: Id del producto a eliminar
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Producto eliminado
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id de mongo
+        name:
+          type: string
+          description: Nombre del producto
+        price:
+          type: number
+          description: Precio del producto
+        category:
+          type: string
+          description: Categoria del producto
+        stock:
+          type: number
+          description: Stock del producto
+        owner:
+          type: string
+          description: Role del usuario
+      example:
+        _id: ObjectId(87whc8hfte78hcs9dhg8)
+        name: Samsung Galaxy
+        price: 100
+        category: Electronics
+        stock: 10
+        owner: admin
+  requestBodies:
+    createProduct:
+      description: body con la informacion para crear un producto
+      properties:
+        name:
+          type: string
+          description: Nombre del producto
+        price:
+          type: number
+          description: Precio del producto
+        category:
+          type: string
+          description: Categoria del producto
+        stock:
+          type: number
+          description: Stock del producto
+      example:
+        name: Samsung Galaxy
+        price: 100
+        category: Electronics
+        stock: 10

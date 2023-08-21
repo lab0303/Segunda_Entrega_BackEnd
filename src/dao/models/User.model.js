@@ -10,14 +10,24 @@ const collectionSchema = new mongoose.Schema({
   },
   age: Number,
   password: String,
-  cart: {
+  cartId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "cart",
   },
   role: {
     type: String,
-    enum: ["user", "admin"],
+    enum: ["user", "admin", "premium"],
     default: "user",
+  },
+  documents: [
+    {
+      name: String,
+      reference: String,
+    },
+  ],
+  last_connection: {
+    type: Date,
+    default: null,
   },
 });
 
