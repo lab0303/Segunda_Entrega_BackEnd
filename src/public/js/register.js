@@ -9,7 +9,7 @@ form.addEventListener("submit", (e) => {
     obj[key] = value;
   });
 
-  const url = "/users";
+  const url = "/api/users";
   const headers = {
     "Content-Type": "application/json",
   };
@@ -22,6 +22,10 @@ form.addEventListener("submit", (e) => {
     body,
   })
     .then((response) => response.json())
-    .then((data) => console.log(data))
+    .then((data) => {
+      if (data) {
+        window.location.href = "/login";
+      }
+    })
     .catch((err) => console.log(err));
 });
