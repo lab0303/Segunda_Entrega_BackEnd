@@ -63,7 +63,8 @@ router.post("/", (req, res) => {
   res.json({ message: newProductInfo });
 });
 
-router.delete("/:pid", passportCall("current"), isAdmin, async (req, res) => {
+//passportCall("current"), isAdmin,
+router.delete("/:pid", async (req, res) => {
   try {
     const { pid } = req.params;
     const product = await Products.deleteProduct(pid);
