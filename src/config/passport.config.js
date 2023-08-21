@@ -5,6 +5,7 @@ const jwt = require("passport-jwt");
 const Users = require("../dao/models/User.model.js");
 const { createHash, isValidPassword } = require("../utils/cryptPassword.utils");
 const cookieExtractor = require("../utils/cookieExtractor.utils.js");
+const Carts = require("../dao/models/Carts.model.js");
 
 const LocalStrategy = local.Strategy;
 
@@ -27,12 +28,16 @@ const initializePassport = () => {
             console.log("Usuario existente");
             return done(null, false);
           }
+          const cart = new Carts();
+          await cart.save();
+          const cartId = cart._id;
           const newUserInfo = {
             firstName,
             lastName,
             email,
             age,
             password: createHash(password),
+            cartId,
           };
 
           const newUser = await Users.create(newUserInfo);
