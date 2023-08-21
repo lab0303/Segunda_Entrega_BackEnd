@@ -75,6 +75,12 @@ router.post("/:uid/documents", uploader.single("file"), (req, res) => {
   res.json({ message: "Archivo guardado" });
 });
 
+router.delete("/:uid", async (req, res) => {
+  const { uid } = req.params;
+  await Users.deleteUser(uid);
+  res.json({ message: "Usuario eliminado" });
+});
+
 router.delete("/", async (req, res) => {
   const users = await Users.findUsers();
   const currentDate = new Date();

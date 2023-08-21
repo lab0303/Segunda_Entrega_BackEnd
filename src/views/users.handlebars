@@ -11,5 +11,9 @@
             <option value="user">user</option>
         </select>
         </br>
-    <button>Eliminar Usuario</button>
+     <form id="deleteUser" method="DELETE" action="/api/users/{{this._id}}">
+          <button type="submit">Eliminar usuario</button>
+        </form>
 {{/each}}
+
+<script src="/js/users.js"></script>

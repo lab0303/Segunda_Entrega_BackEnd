@@ -42,8 +42,8 @@ router.get("/:pid", async (req, res) => {
     console.log(error);
   }
 });
-//passportCall("current"), isAdmin,
-router.post("/", (req, res) => {
+
+router.post("/", passportCall("current"), isAdmin, (req, res) => {
   const { name, price, category, stock } = req.body;
   if (!name || !price || !category || !stock) {
     CustomeError.createError({
@@ -63,8 +63,7 @@ router.post("/", (req, res) => {
   res.json({ message: newProductInfo });
 });
 
-//passportCall("current"), isAdmin,
-router.delete("/:pid", async (req, res) => {
+router.delete("/:pid", passportCall("current"), isAdmin, async (req, res) => {
   try {
     const { pid } = req.params;
     const product = await Products.deleteProduct(pid);
