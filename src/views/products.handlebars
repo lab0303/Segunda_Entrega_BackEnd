@@ -2,13 +2,17 @@
 <p>Te logueaste con el correo {{user.email}}</p>
 <a href="/auth/logout">Cerrar sesion</a>
 <a href="/users/email">Cambiar Password</a>
+<a href="/api/carts/{{user.cartId}}">Ver mi carrito</a>
 
 <h2>Products</h2>
  {{#each products}}
     <h3>Name:{{this.name}}</h3>
     <p>Price: {{this.price}}</p>
     <p>Category: {{this.category}}</p>
-    <button>Agregar al carrito</button>
+    <form id="addToCartForm" method="PATCH" action="/api/carts/{{../user.cartId}}">
+          <input type="hidden" name="product" value="{{this._id}}">
+          <button type="submit">Agregar al carrito</button>
+        </form>
   {{/each}}
 
 <script src="/js/products.js"></script>

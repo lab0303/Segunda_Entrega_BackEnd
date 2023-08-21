@@ -94,7 +94,6 @@ router.patch("/:cid/purchase", async (req, res) => {
   if (!cart) return res.json({ message: "Carrito no encontrado" });
   const productsNotPurchase = [];
   for (const item of cart.products) {
-    console.log(item);
     let product = item.product;
     let cartQuantity = item.quantity;
 
@@ -105,7 +104,7 @@ router.patch("/:cid/purchase", async (req, res) => {
       productsNotPurchase.push(product._id);
     }
   }
-  res.json({ message: "Compra efectuada", response, cart });
+  res.json({ message: "Compra efectuada", cart });
 });
 
 module.exports = router;

@@ -15,12 +15,17 @@ form.addEventListener("submit", (e) => {
   };
   const method = "POST";
   const body = JSON.stringify(obj);
+
   fetch(url, {
     headers,
     method,
     body,
   })
     .then((response) => response.json())
-    .then((data) => console.log(data))
+    .then((data) => {
+      if (data) {
+        window.location.href = "/current";
+      }
+    })
     .catch((err) => console.error(err));
 });
