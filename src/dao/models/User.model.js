@@ -10,7 +10,7 @@ const collectionSchema = new mongoose.Schema({
   },
   age: Number,
   password: String,
-  cart: {
+  cartId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "cart",
   },
