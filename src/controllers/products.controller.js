@@ -1,11 +1,11 @@
 const { Router } = require("express");
-const Products1 = require("../dao/models/Products.model");
-const ProductsDAO = require("../dao/Products.Dao");
+const ProductsDAO = require("../dao/ProductsMongo.Dao");
 const isAdmin = require("../middlwares/isAdmin.middleware");
 const passportCall = require("../utils/passportCall.utils");
 const generateProductErrorInfo = require("../handlers/errors/info");
 const CustomeError = require("../handlers/errors/CustomeError");
 const EnumErrors = require("../handlers/errors/enums");
+const ProductManager = require("../repositories");
 
 const router = Router();
 
@@ -22,11 +22,7 @@ router.get("/", async (req, res) => {
     const query = {};
     if (category) query.category = category.toLocaleLowerCase();
 
-    const products = await Products1.paginate(query, {
-      limit,
-      page,
-      sort: sortPrice,
-    });
+    const products = await Products.getProducts(query, limit, page, sortPrice);
     res.json({ message: products });
   } catch (error) {
     console.log(error);
@@ -36,7 +32,7 @@ router.get("/", async (req, res) => {
 router.get("/:pid", async (req, res) => {
   try {
     const { pid } = req.params;
-    const product = await Products.getProduct(pid);
+    const product = await ProductManager.getProductById(pid);
     res.json({ message: product });
   } catch (error) {
     console.log(error);
@@ -59,15 +55,15 @@ router.post("/", passportCall("current"), isAdmin, (req, res) => {
     category: category.toLowerCase(),
     stock,
   };
-  Products.addProduct(newProductInfo);
+  ProductManager.addProduct(newProductInfo);
   res.json({ message: newProductInfo });
 });
 
 router.delete("/:pid", passportCall("current"), isAdmin, async (req, res) => {
   try {
     const { pid } = req.params;
-    const product = await Products.deleteProduct(pid);
-    res.json({ message: product });
+    await ProductManager.deleteProduct(pid);
+    res.json({ message: "Producto eliminado" });
   } catch (error) {
     console.log(error);
   }

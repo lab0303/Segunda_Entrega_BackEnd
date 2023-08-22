@@ -1,7 +1,15 @@
 const Products = require("./models/Products.model");
 
-class ProductsDAO {
+class ProductsMongoDAO {
   constructor() {}
+
+  async getProducts(query, limit, page, sort) {
+    return await Products.paginate(query, {
+      limit,
+      page,
+      sort,
+    });
+  }
   async getProduct(pid) {
     return await Products.findOne({ _id: pid });
   }
@@ -10,8 +18,8 @@ class ProductsDAO {
   }
 
   async deleteProduct(pid) {
-    return await Products.deleteOne({ _id: pid });
+    await Products.deleteOne({ _id: pid });
   }
 }
 
-module.exports = ProductsDAO;
+module.exports = ProductsMongoDAO;
