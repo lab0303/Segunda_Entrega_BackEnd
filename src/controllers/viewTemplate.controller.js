@@ -23,7 +23,6 @@ router.get("/reset-password", publicSession, (req, res) => {
 router.get("/admin", passportCall("current"), isAdmin, async (req, res) => {
   try {
     const users = await Users.find().lean();
-    console.log(users);
     console.log(req.user.user);
     res.render("users", { users });
   } catch (error) {
